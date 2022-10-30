@@ -1,14 +1,24 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck extends ArrayList<Card> {
-
+	private char[] suit = {'C', 'H', 'D', 'S'};
 	Deck() {
-		ArrayList<Card> deck = new ArrayList<Card>();
-		char[] suit = {'C', 'H', 'D', 'S'};
-	        for (int i = 0; i < 4; i++) {
-	           for (int j = 2; j < 15; j++) {
-		       deck.add(new Card(suit[i], j));
-		   }
+		for (int i = 0; i < 4; i++) {
+			for (int j = 2; j < 15; j++) {
+				this.add(new Card(suit[i], j));
+		    }
 	 	}
+		Collections.shuffle(this);
+	}
+	
+	void newDeck() {
+		this.clear();
+		for (int i = 0; i < 4; i++) {
+			for (int j = 2; j < 15; j++) {
+				this.add(new Card(suit[i], j));
+			}
+		}
+		Collections.shuffle(this);
 	}
 }
