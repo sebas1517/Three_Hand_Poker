@@ -32,7 +32,7 @@ class dealTest {
     }
 
     @Test
-    void dealerHandSize2() {
+    void testdealerHand2() {
         dealer.dealersHand.add(new Card('S', 8));
         dealer.dealersHand.add(new Card('H', 12));
 
@@ -40,7 +40,7 @@ class dealTest {
     }
 
     @Test
-    void dealerHandSize3() {
+    void testdealerHand3() {
         dealer.dealersHand.add(new Card('S', 8));
         dealer.dealersHand.add(new Card('H', 12));
         dealer.dealersHand.add(new Card('C', 6));
@@ -49,7 +49,7 @@ class dealTest {
     }
 
     @Test
-    void dealerHandSize4() {
+    void testdealerHand4() {
         dealer.dealersHand.add(new Card('S', 8));
         dealer.dealersHand.add(new Card('H', 12));
         dealer.dealersHand.add(new Card('C', 6));
