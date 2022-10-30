@@ -16,7 +16,7 @@ public class Dealer {
         if(theDeck.size <= 34) {
             theDeck.newDeck();
         }
-        // Adds the three cards fior the dealers hand by removing from the top of the deck
+        // Adds the three cards for the dealers hand by removing from the top of the deck
         for(int i = 0; i < 3; i++) {
             temp.add(theDeck.remove(0));
         }
