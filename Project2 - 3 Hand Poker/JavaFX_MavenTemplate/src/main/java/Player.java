@@ -8,6 +8,10 @@ public class Player {
     int totalWinnings;
 
     Player() {
-        
+        this.hand = new ArrayList<Card>();
+        this.anteBet = 0;
+        this.playBet = 0;
+        this.pairPlusBet = 0;
+        this.totalWinnings = 0;
     }
 }
