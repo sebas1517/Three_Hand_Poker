@@ -7,6 +7,8 @@ import javafx.animation.SequentialTransition;
 import javafx.application.Application;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -28,8 +30,11 @@ public class JavaFXTemplate extends Application {
 		// TODO Auto-generated method stub
 		primaryStage.setTitle("Welcome to Project #2");
 
-
-
+		Menu exit = new Menu("Exit");
+		Menu freshStart = new Menu("Fresh Start");
+		Menu newLook = new Menu("NewLook");
+		MenuBar menuBar = new MenuBar(exit, freshStart, newLook);
+		
 
 		Rectangle rect = new Rectangle (100, 40, 100, 100);
 		rect.setArcHeight(50);
@@ -41,9 +46,7 @@ public class JavaFXTemplate extends Application {
 		rt.setCycleCount(4);
 		rt.setAutoReverse(true);
 		SequentialTransition seqTransition = new SequentialTransition (
-				new PauseTransition(Duration.millis(500)),
-				rt
-		);
+				new PauseTransition(Duration.millis(500)), rt);
 		seqTransition.play();
 
 		FadeTransition ft = new FadeTransition(Duration.millis(5000), rect);
