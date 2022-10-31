@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -22,8 +23,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class ThreeCardPokerGame extends Application {
+
     Player playerOne;
     Player playerTwo;
     Dealer theDealer;
@@ -38,11 +42,21 @@ public class ThreeCardPokerGame extends Application {
     	
     	//  Top part of UI
     	HBox topHorizontal;
-    	Menu exit = new Menu("Exit");
-		Menu freshStart = new Menu("Fresh Start");
-		Menu newLook = new Menu("NewLook");
-		MenuBar menuBar = new MenuBar(exit, freshStart, newLook);
-		
+    	MenuItem exit = new MenuItem("Exit");
+		// close game
+		exit.setOnAction( e -> {
+			primaryStage.close();
+		});
+		MenuItem freshStart = new MenuItem("Fresh Start");
+		MenuItem newLook = new MenuItem("NewLook");
+		Menu menu = new Menu("Menu");
+		menu.getItems().add(exit);
+		menu.getItems().add(freshStart);
+		menu.getItems().add(newLook);
+
+		MenuBar menuBar = new MenuBar(menu);
+
+
 		VBox dealerBox;
 		Text dealerText = new Text("Dealer");
 		HBox dealerCards = new HBox();
@@ -54,7 +68,8 @@ public class ThreeCardPokerGame extends Application {
 		
 		topHorizontal = new HBox(menuBar, dealerBox, displayQueueItems);
 		topHorizontal.setSpacing(100);
-		
+
+
 		// Center part of UI
 		HBox centerBox;
 		
@@ -63,6 +78,7 @@ public class ThreeCardPokerGame extends Application {
 		Text pp = new Text("Pair+");
 		Text anteTwo = new Text("Ante");
 		Text ppTwo = new Text("Pair+");
+
 		//  Player one's box
 		VBox playerOneBox;
 		Text pOne = new Text("Player 1");
