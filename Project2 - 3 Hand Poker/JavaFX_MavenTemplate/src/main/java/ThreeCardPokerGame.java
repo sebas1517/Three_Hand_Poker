@@ -290,7 +290,7 @@ public class ThreeCardPokerGame extends Application {
 					p2Cards[i] = new Image(s, 100, 160, true, true);
 					p2CardViews[i].setImage(p2Cards[i]);
 				}
-				theDealer.dealersHand = theDealer.dealHand();
+				//theDealer.dealersHand = theDealer.dealHand();
 //				for (int i = 0; i < 3; i++) {
 //					Card curr = theDealer.dealersHand.get(i);
 //					String s = String.format("%d_of_%c.png", curr.value, curr.suit);
@@ -303,25 +303,36 @@ public class ThreeCardPokerGame extends Application {
 		p1Play.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				playerOne.playBet = playerOne.anteBet;
-				
+				p1Play.setDisable(true);
+				p1Fold.setDisable(true);
+				checkDisabled(p1Play.isDisabled(), p2Play.isDisabled());
 			}
 		});
 		
 		p2Play.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				playerTwo.playBet = playerTwo.anteBet;
+				p2Play.setDisable(true);
+				p2Fold.setDisable(true);
+				checkDisabled(p1Play.isDisabled(), p2Play.isDisabled());
 			}
 		});
 		
 		p1Fold.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				playerOne.totalWinnings -= playerOne.anteBet + playerOne.pairPlusBet;
+				p1Play.setDisable(true);
+				p1Fold.setDisable(true);
+				checkDisabled(p1Play.isDisabled(), p2Play.isDisabled());
 			}
 		});
 		
 		p2Fold.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				playerTwo.totalWinnings -= playerTwo.anteBet + playerTwo.pairPlusBet;
+				p2Play.setDisable(true);
+				p2Fold.setDisable(true);
+				checkDisabled(p1Play.isDisabled(), p2Play.isDisabled());
 			}
 		});
 		
@@ -342,5 +353,15 @@ public class ThreeCardPokerGame extends Application {
     	primaryStage.setScene(scene);
     	primaryStage.show();
     }
+	public void checkDisabled(bool p1Selection, bool p2Selection) {
+		if (p1Selection && p2Selection) {
+			theDealer.dealersHand = theDealer.dealHand();
+			for (int i = 0; i < 3; i++) {
+				Card curr = theDealer.dealersHand.get(i);
+				String s = String.format("%d_of_%c.png", curr.value, curr.suit);
+				dealerCards[i] = new Image(s, 60, 100, true, true);
+				dealerCardViews[i].setImage(dealerCards[i]);
+			}
+		}
+	}
 }
-
