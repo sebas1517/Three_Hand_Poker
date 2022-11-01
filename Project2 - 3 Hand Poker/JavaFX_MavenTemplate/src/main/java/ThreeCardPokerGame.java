@@ -40,6 +40,9 @@ public class ThreeCardPokerGame extends Application {
     public void start(Stage primaryStage) throws Exception {
     	primaryStage.setTitle("Three Card Poker");
     	
+    	int pOneWonAmt = 0;
+    	int pTwoWonAmt = 0;
+    	
     	//  Top part of UI
     	HBox topHorizontal;
     	MenuItem exit = new MenuItem("Exit");
@@ -57,28 +60,24 @@ public class ThreeCardPokerGame extends Application {
 		MenuBar menuBar = new MenuBar(menu);
 
         // Adding card image
-		Image dealerBack = new Image("BackofCard.png", 60, 100, true, true);
+		Image dealerBack = new Image("BackofCard.png", 100, 160, true, true);
 		ImageView dealerBackView = new ImageView(dealerBack);
 
-		Image dealerBack2 = new Image("BackofCard.png", 60, 100, true, true);
+		Image dealerBack2 = new Image("BackofCard.png", 100, 160, true, true);
 		ImageView dealerBackView2 = new ImageView(dealerBack);
 
-		Image dealerBack3 = new Image("BackofCard.png", 60, 100, true, true);
+		Image dealerBack3 = new Image("BackofCard.png", 100, 160, true, true);
 		ImageView dealerBackView3 = new ImageView(dealerBack);
 
 		// dealer cards
-		HBox dealerCard1 = new HBox(dealerBackView);
-		HBox dealerCard2 = new HBox(dealerBackView2);
-		HBox dealerCard3 = new HBox(dealerBackView3);
-
-		HBox dealerHand = new HBox(dealerCard1, dealerCard2, dealerCard3);
+		HBox dealerHand = new HBox(dealerBackView, dealerBackView2, dealerBackView3);
 	
 		VBox dealerBox;
 		Text dealerText = new Text("Dealer");
 		HBox dealerCards = new HBox();
 		dealerBox = new VBox(dealerText, dealerCards, dealerHand);
 		dealerBox.setPadding(new Insets(0, 150, 0, 150));
-		dealerBox.setStyle("-fx-border-color: blue;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+		dealerBox.setStyle("-fx-border-color: black;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
 		ListView<String> displayQueueItems = new ListView<String>();
 		ObservableList<String> storeQueueItemsInListView;
 		
@@ -98,7 +97,7 @@ public class ThreeCardPokerGame extends Application {
 		// Player one's box
 		VBox playerOneBox;
 		Text pOne = new Text("Player 1");
-		Text pOneWinnings = new Text("Total Winnings: ");
+		Text pOneWinnings = new Text("Total Winnings: " + pOneWonAmt);
 		
 		HBox pOneCards = new HBox(); // player 1 cards
 		
@@ -156,7 +155,7 @@ public class ThreeCardPokerGame extends Application {
 		//  Player two's box
 		VBox playerTwoBox;
 		Text pTwo = new Text("Player 2");
-		Text pTwoWinnings = new Text("Total Winnings: ");
+		Text pTwoWinnings = new Text("Total Winnings: " + pTwoWonAmt);
 		
 		HBox pTwoCards = new HBox(); // player 1 cards
 		
