@@ -98,29 +98,29 @@ public class ThreeCardPokerGame extends Application {
 		// Player one's box
 		VBox playerOneBox;
 		Text pOne = new Text("Player 1");
-		HBox pOneNameAndWon;
 		Text pOneWinnings = new Text("Total Winnings: ");
-		pOneNameAndWon = new HBox(pOne, pOneWinnings);
 		
 		HBox pOneCards = new HBox(); // player 1 cards
-		HBox pOneBets; // ante and pair
 		
 		Button decAnteOne = new Button("-");
+		int pOneAnteBet = 5;
 		TextField anteAmountOne = new TextField();
+		anteAmountOne.setText(Integer.toString(pOneAnteBet));
+		anteAmountOne.setAlignment(Pos.CENTER);
 		anteAmountOne.setDisable(true);
 		Button incAnteOne = new Button("+");
-		HBox pOneAnteAmt = new HBox(decAnteOne, anteAmountOne, incAnteOne);
-		VBox pOneAnte = new VBox(pOneAnteAmt, ante);
-		pOneAnteAmt.setSpacing(5);
+		HBox pOneAnte = new HBox(decAnteOne, anteAmountOne, incAnteOne);
+		pOneAnte.setSpacing(5);
 		
 		Button decPPOne = new Button("-");
+		int pOnePPBet = 5;
 		TextField ppAmountOne = new TextField();
+		ppAmountOne.setText(Integer.toString(pOnePPBet));
+		ppAmountOne.setAlignment(Pos.CENTER);
 		ppAmountOne.setDisable(true);
 		Button incPPOne = new Button("+");
-		HBox pOnePPAmt = new HBox(decPPOne, ppAmountOne, incPPOne);
-		VBox pOnePP = new VBox(pOnePPAmt, pp);
-		pOneBets = new HBox(pOneAnte, pOnePP);
-		pOnePPAmt.setSpacing(5);
+		HBox pOnePP = new HBox(decPPOne, ppAmountOne, incPPOne);
+		pOnePP.setSpacing(5);
 
 		// Adding card image
 		Image p1cardBack = new Image("BackofCard.png", 60, 100, true, true);
@@ -133,49 +133,51 @@ public class ThreeCardPokerGame extends Application {
 		ImageView p1cardBackView3 = new ImageView(p1cardBack);
 
 		// Player one cards
-		HBox p1Card1 = new HBox(p1cardBackView);
-		HBox p1Card2 = new HBox(p1cardBackView2);
-		HBox p1Card3 = new HBox(p1cardBackView3);
+//		HBox p1Card1 = new HBox(p1cardBackView);
+//		HBox p1Card2 = new HBox(p1cardBackView2);
+//		HBox p1Card3 = new HBox(p1cardBackView3);
 
-		HBox p1Hand = new HBox(p1Card1, p1Card2, p1Card3);
-		playerOneBox = new VBox(pOneNameAndWon, pOneCards, pOneBets, p1Hand);
+		HBox p1Hand = new HBox(p1cardBackView, p1cardBackView2, p1cardBackView3);
+		playerOneBox = new VBox(pOne, p1Hand, ante, pOneAnte, pp, pOnePP, pOneWinnings);
+		playerOneBox.setAlignment(Pos.TOP_CENTER);
+		playerOneBox.setStyle("-fx-border-color: blue;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+		playerOneBox.setPadding(new Insets(0, 50, 0, 50));
+		playerOneBox.setSpacing(10);
 
 		
 		// Middle Buttons
 		Button deal = new Button("Deal");
 		Button rebet = new Button("Rebet");
 		VBox midButtons = new VBox(deal, rebet);
-		midButtons.setAlignment(Pos.BASELINE_CENTER);
+		midButtons.setAlignment(Pos.CENTER);
 		midButtons.setPadding(new Insets(0, 20, 0, 20));
+		midButtons.setSpacing(40);
 		
 		//  Player two's box
 		VBox playerTwoBox;
 		Text pTwo = new Text("Player 2");
-		HBox pTwoNameAndWon;
 		Text pTwoWinnings = new Text("Total Winnings: ");
-		pTwoNameAndWon = new HBox(pTwo, pTwoWinnings);
 		
 		HBox pTwoCards = new HBox(); // player 1 cards
-		HBox pTwoBets; // ante and pair
 		
 		Button decAnteTwo = new Button("-");
+		int pTwoAnteBet = 5;
 		TextField anteAmountTwo = new TextField();
+		anteAmountTwo.setText(Integer.toString(pTwoAnteBet));
+		anteAmountTwo.setAlignment(Pos.CENTER);
 		anteAmountTwo.setDisable(true);
 		Button incAnteTwo = new Button("+");
-		HBox pTwoAnteAmt = new HBox(decAnteTwo, anteAmountTwo, incAnteTwo);
-		pTwoAnteAmt.setSpacing(5);
-		VBox pTwoAnte = new VBox(pTwoAnteAmt, anteTwo);
-		pTwoAnte.setSpacing(20);
+		HBox pTwoAnte = new HBox(decAnteTwo, anteAmountTwo, incAnteTwo);
+		pTwoAnte.setSpacing(5);
 		
 		Button decPPTwo = new Button("-");
+		int pTwoPPBet = 5;
 		TextField ppAmountTwo = new TextField();
+		ppAmountTwo.setText(Integer.toString(pTwoPPBet));
+		ppAmountTwo.setAlignment(Pos.CENTER);
 		ppAmountTwo.setDisable(true);
 		Button incPPTwo = new Button("+");
-		HBox pTwoPPAmt = new HBox(decPPTwo, ppAmountTwo, incPPTwo);
-		pTwoPPAmt.setSpacing(5);
-		VBox pTwoPP = new VBox(pTwoPPAmt, ppTwo);
-		pTwoBets = new HBox(pTwoAnte, pTwoPP);
-		pTwoPP.setSpacing(20);
+		HBox pTwoPP = new HBox(decPPTwo, ppAmountTwo, incPPTwo);
 
 		// Adding card image
 		Image p2cardBack = new Image("BackofCard.png", 60, 100, true, true);
@@ -188,13 +190,18 @@ public class ThreeCardPokerGame extends Application {
 		ImageView p2cardBackView3 = new ImageView(p2cardBack);
 
 		// Player two cards
-		HBox p2Card1 = new HBox(p2cardBackView);
-		HBox p2Card2 = new HBox(p2cardBackView2);
-		HBox p2Card3 = new HBox(p2cardBackView3);
+//		HBox p2Card1 = new HBox(p2cardBackView);
+//		HBox p2Card2 = new HBox(p2cardBackView2);
+//		HBox p2Card3 = new HBox(p2cardBackView3);
 
-		HBox p2Hand = new HBox(p2Card1, p2Card2, p2Card3);
+		HBox p2Hand = new HBox(p2cardBackView, p2cardBackView2, p2cardBackView3);
 		
-		playerTwoBox = new VBox(pTwoNameAndWon, pTwoCards, pTwoBets, p2Hand);
+		pTwoPP.setSpacing(5);
+		playerTwoBox = new VBox(pTwo, p2Hand, anteTwo, pTwoAnte, ppTwo, pTwoPP, pTwoWinnings);
+		playerTwoBox.setAlignment(Pos.TOP_CENTER);
+		playerTwoBox.setStyle("-fx-border-color: blue;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+		playerTwoBox.setPadding(new Insets(0, 50, 0, 50));
+		playerTwoBox.setSpacing(10);
 		
 		centerBox = new HBox(playerOneBox, midButtons, playerTwoBox);
 		
