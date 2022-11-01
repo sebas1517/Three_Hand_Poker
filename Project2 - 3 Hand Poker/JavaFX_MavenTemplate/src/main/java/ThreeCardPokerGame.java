@@ -56,11 +56,27 @@ public class ThreeCardPokerGame extends Application {
 
 		MenuBar menuBar = new MenuBar(menu);
 
+        // Adding card image
+		Image dealerBack = new Image("BackofCard.png", 60, 100, true, true);
+		ImageView dealerBackView = new ImageView(dealerBack);
 
+		Image dealerBack2 = new Image("BackofCard.png", 60, 100, true, true);
+		ImageView dealerBackView2 = new ImageView(dealerBack);
+
+		Image dealerBack3 = new Image("BackofCard.png", 60, 100, true, true);
+		ImageView dealerBackView3 = new ImageView(dealerBack);
+
+		// dealer cards
+		HBox dealerCard1 = new HBox(dealerBackView);
+		HBox dealerCard2 = new HBox(dealerBackView2);
+		HBox dealerCard3 = new HBox(dealerBackView3);
+
+		HBox dealerHand = new HBox(dealerCard1, dealerCard2, dealerCard3);
+	
 		VBox dealerBox;
 		Text dealerText = new Text("Dealer");
 		HBox dealerCards = new HBox();
-		dealerBox = new VBox(dealerText, dealerCards);
+		dealerBox = new VBox(dealerText, dealerCards, dealerHand);
 		dealerBox.setPadding(new Insets(0, 150, 0, 150));
 		dealerBox.setStyle("-fx-border-color: blue;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
 		ListView<String> displayQueueItems = new ListView<String>();
@@ -79,7 +95,7 @@ public class ThreeCardPokerGame extends Application {
 		Text anteTwo = new Text("Ante");
 		Text ppTwo = new Text("Pair+");
 
-		//  Player one's box
+		// Player one's box
 		VBox playerOneBox;
 		Text pOne = new Text("Player 1");
 		HBox pOneNameAndWon;
@@ -105,8 +121,25 @@ public class ThreeCardPokerGame extends Application {
 		VBox pOnePP = new VBox(pOnePPAmt, pp);
 		pOneBets = new HBox(pOneAnte, pOnePP);
 		pOnePPAmt.setSpacing(5);
-		
-		playerOneBox = new VBox(pOneNameAndWon, pOneCards, pOneBets);
+
+		// Adding card image
+		Image p1cardBack = new Image("BackofCard.png", 60, 100, true, true);
+		ImageView p1cardBackView = new ImageView(p1cardBack);
+
+		Image p1cardBack2 = new Image("BackofCard.png", 60, 100, true, true);
+		ImageView p1cardBackView2 = new ImageView(p1cardBack);
+
+		Image p1cardBack3 = new Image("BackofCard.png", 60, 100, true, true);
+		ImageView p1cardBackView3 = new ImageView(p1cardBack);
+
+		// Player one cards
+		HBox p1Card1 = new HBox(p1cardBackView);
+		HBox p1Card2 = new HBox(p1cardBackView2);
+		HBox p1Card3 = new HBox(p1cardBackView3);
+
+		HBox p1Hand = new HBox(p1Card1, p1Card2, p1Card3);
+		playerOneBox = new VBox(pOneNameAndWon, pOneCards, pOneBets, p1Hand);
+
 		
 		// Middle Buttons
 		Button deal = new Button("Deal");
@@ -143,8 +176,25 @@ public class ThreeCardPokerGame extends Application {
 		VBox pTwoPP = new VBox(pTwoPPAmt, ppTwo);
 		pTwoBets = new HBox(pTwoAnte, pTwoPP);
 		pTwoPP.setSpacing(20);
+
+		// Adding card image
+		Image p2cardBack = new Image("BackofCard.png", 60, 100, true, true);
+		ImageView p2cardBackView = new ImageView(p2cardBack);
+
+		Image p2cardBack2 = new Image("BackofCard.png", 60, 100, true, true);
+		ImageView p2cardBackView2 = new ImageView(p2cardBack);
+
+		Image p2cardBack3 = new Image("BackofCard.png", 60, 100, true, true);
+		ImageView p2cardBackView3 = new ImageView(p2cardBack);
+
+		// Player two cards
+		HBox p2Card1 = new HBox(p2cardBackView);
+		HBox p2Card2 = new HBox(p2cardBackView2);
+		HBox p2Card3 = new HBox(p2cardBackView3);
+
+		HBox p2Hand = new HBox(p2Card1, p2Card2, p2Card3);
 		
-		playerTwoBox = new VBox(pTwoNameAndWon, pTwoCards, pTwoBets);
+		playerTwoBox = new VBox(pTwoNameAndWon, pTwoCards, pTwoBets, p2Hand);
 		
 		centerBox = new HBox(playerOneBox, midButtons, playerTwoBox);
 		
