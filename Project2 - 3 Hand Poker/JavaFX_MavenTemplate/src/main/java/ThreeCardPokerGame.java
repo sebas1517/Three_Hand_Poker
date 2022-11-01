@@ -57,7 +57,7 @@ public class ThreeCardPokerGame extends Application {
 		});
 		MenuItem freshStart = new MenuItem("Fresh Start");
 		MenuItem newLook = new MenuItem("NewLook");
-		Menu menu = new Menu("Menu");
+		Menu menu = new Menu("Options");
 		menu.getItems().add(exit);
 		menu.getItems().add(freshStart);
 		menu.getItems().add(newLook);
@@ -65,29 +65,28 @@ public class ThreeCardPokerGame extends Application {
 		MenuBar menuBar = new MenuBar(menu);
 
         // Adding card image
-		Image dealerBack = new Image("BackofCard.png", 100, 160, true, true);
-		ImageView dealerBackView = new ImageView(dealerBack);
-
-		Image dealerBack2 = new Image("BackofCard.png", 100, 160, true, true);
-		ImageView dealerBackView2 = new ImageView(dealerBack);
-
-		Image dealerBack3 = new Image("BackofCard.png", 100, 160, true, true);
-		ImageView dealerBackView3 = new ImageView(dealerBack);
+		Image dealerCardBack1 = new Image("BackofCard.png", 100, 160, true, true);
+		Image dealerCardBack2 = new Image("BackofCard.png", 100, 160, true, true);
+		Image dealerCardBack3 = new Image("BackofCard.png", 100, 160, true, true);
+		
+		ImageView[] dealerCardViews = {new ImageView(dealerCardBack1),
+				new ImageView(dealerCardBack2), new ImageView(dealerCardBack3)};
+		Image[] dealerCards = {null, null, null};
 
 		// dealer cards
-		HBox dealerHand = new HBox(dealerBackView, dealerBackView2, dealerBackView3);
-	
+		HBox dealerHand = new HBox(dealerCardViews[0], dealerCardViews[1], dealerCardViews[2]);
+		dealerHand.setSpacing(5);
+		
 		VBox dealerBox;
 		Text dealerText = new Text("Dealer");
-		HBox dealerCards = new HBox();
-		dealerBox = new VBox(dealerText, dealerCards, dealerHand);
-		dealerBox.setPadding(new Insets(0, 150, 0, 150));
+		dealerBox = new VBox(dealerText, dealerHand);
+		dealerBox.setPadding(new Insets(0, 20, 0, 20));
 		dealerBox.setStyle("-fx-border-color: black;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
 		ListView<String> displayQueueItems = new ListView<String>();
 		ObservableList<String> storeQueueItemsInListView;
 		
 		topHorizontal = new HBox(menuBar, dealerBox, displayQueueItems);
-		topHorizontal.setSpacing(100);
+		topHorizontal.setSpacing(155);
 
 
 		// Center part of UI
@@ -96,84 +95,85 @@ public class ThreeCardPokerGame extends Application {
 		
 		Text ante = new Text("Ante");
 		Text pp = new Text("Pair+");
-		Text anteTwo = new Text("Ante");
-		Text ppTwo = new Text("Pair+");
+		Text ante2 = new Text("Ante");
+		Text pp2 = new Text("Pair+");
 
 		// Player one's box
-		VBox playerOneBox;
-		Text pOne = new Text("Player 1");
-		Text pOneWinnings = new Text("Total Winnings: " + playerOne.totalWinnings);
+		VBox player1Box;
+		Text p1 = new Text("Player 1");
+		Text p1Winnings = new Text("Total Winnings: " + playerOne.totalWinnings);
 		
-		HBox pOneCards = new HBox(); // player 1 cards
-		
-		Button decAnteOne = new Button("-");
-		TextField anteAmountOne = new TextField();
-		anteAmountOne.setText(Integer.toString(playerOne.anteBet));
-		decAnteOne.setOnAction(e -> {
+		Button decAnte1 = new Button("-");
+		TextField anteAmount1 = new TextField();
+		anteAmount1.setText(Integer.toString(playerOne.anteBet));
+		decAnte1.setOnAction(e -> {
 			playerOne.anteBet--;
 			if (playerOne.anteBet < 5) {
 				playerOne.anteBet = 5;
 			}
-			anteAmountOne.setText(Integer.toString(playerOne.anteBet));
+			anteAmount1.setText(Integer.toString(playerOne.anteBet));
 		});
-		anteAmountOne.setAlignment(Pos.CENTER);
-		anteAmountOne.setDisable(true);
-		Button incAnteOne = new Button("+");
-		incAnteOne.setOnAction(e -> {
+		anteAmount1.setAlignment(Pos.CENTER);
+		anteAmount1.setDisable(true);
+		Button incAnte1 = new Button("+");
+		incAnte1.setOnAction(e -> {
 			playerOne.anteBet++;
 			if (playerOne.anteBet > 25) {
 				playerOne.anteBet = 25;
 			}
-			anteAmountOne.setText(Integer.toString(playerOne.anteBet));
+			anteAmount1.setText(Integer.toString(playerOne.anteBet));
 		});
-		HBox pOneAnte = new HBox(decAnteOne, anteAmountOne, incAnteOne);
-		pOneAnte.setSpacing(5);
+		HBox p1Ante = new HBox(decAnte1, anteAmount1, incAnte1);
+		p1Ante.setAlignment(Pos.CENTER);
+		p1Ante.setSpacing(5);
 
-		TextField ppAmountOne = new TextField();
-		ppAmountOne.setText(Integer.toString(playerOne.pairPlusBet));
-		Button decPPOne = new Button("-");
-		decPPOne.setOnAction(e -> {
+		TextField ppAmount1 = new TextField();
+		ppAmount1.setText(Integer.toString(playerOne.pairPlusBet));
+		Button decPP1 = new Button("-");
+		decPP1.setOnAction(e -> {
 			playerOne.pairPlusBet--;
 			if (playerOne.pairPlusBet < 5) {
 				playerOne.pairPlusBet = 5;
 			}
-			ppAmountOne.setText(Integer.toString(playerOne.pairPlusBet));
+			ppAmount1.setText(Integer.toString(playerOne.pairPlusBet));
 		});
-		ppAmountOne.setAlignment(Pos.CENTER);
-		ppAmountOne.setDisable(true);
-		Button incPPOne = new Button("+");
-		incPPOne.setOnAction(e -> {
+		ppAmount1.setAlignment(Pos.CENTER);
+		ppAmount1.setDisable(true);
+		Button incPP1 = new Button("+");
+		incPP1.setOnAction(e -> {
 			playerOne.pairPlusBet++;
 			if (playerOne.pairPlusBet > 25) {
 				playerOne.pairPlusBet = 25;
 			}
-			ppAmountOne.setText(Integer.toString(playerOne.pairPlusBet));
+			ppAmount1.setText(Integer.toString(playerOne.pairPlusBet));
 		});
-		HBox pOnePP = new HBox(decPPOne, ppAmountOne, incPPOne);
-		pOnePP.setSpacing(5);
+		HBox p1PP = new HBox(decPP1, ppAmount1, incPP1);
+		p1PP.setAlignment(Pos.CENTER);
+		p1PP.setSpacing(5);
+		
+		Button p1Play = new Button("PLAY");
+		Button p1Fold = new Button("FOLD");
+		HBox p1PF = new HBox(p1Play, p1Fold);
+		p1PF.setAlignment(Pos.CENTER);
+		p1PF.setSpacing(30);
+		
+		// Card Back
+		Image p1CardBack1 = new Image("BackofCard.png", 100, 160, true, true);
+		Image p1CardBack2 = new Image("BackofCard.png", 100, 160, true, true);
+		Image p1CardBack3 = new Image("BackofCard.png", 100, 160, true, true);
+		
+		ImageView[] p1CardViews = {new ImageView(p1CardBack1), new ImageView(p1CardBack2), new ImageView(p1CardBack3)};
+		Image[] p1Cards = {null, null, null};
 
-		// Adding card image
-		Image p1cardBack = new Image("BackofCard.png", 60, 100, true, true);
-		ImageView p1cardBackView = new ImageView(p1cardBack);
 
-		Image p1cardBack2 = new Image("BackofCard.png", 60, 100, true, true);
-		ImageView p1cardBackView2 = new ImageView(p1cardBack);
-
-		Image p1cardBack3 = new Image("BackofCard.png", 60, 100, true, true);
-		ImageView p1cardBackView3 = new ImageView(p1cardBack);
-
-		// Player one cards
-//		HBox p1Card1 = new HBox(p1cardBackView);
-//		HBox p1Card2 = new HBox(p1cardBackView2);
-//		HBox p1Card3 = new HBox(p1cardBackView3);
-
-		HBox p1Hand = new HBox(p1cardBackView, p1cardBackView2, p1cardBackView3);
-		playerOneBox = new VBox(pOne, p1Hand, ante, pOneAnte, pp, pOnePP, pOneWinnings);
-		playerOneBox.setAlignment(Pos.TOP_CENTER);
-		playerOneBox.setStyle("-fx-border-color: blue;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
-		playerOneBox.setPadding(new Insets(0, 50, 0, 50));
-		playerOneBox.setSpacing(10);
-
+		HBox p1Hand = new HBox(p1CardViews[0], p1CardViews[1], p1CardViews[2]);
+		p1Hand.setSpacing(5);
+		player1Box = new VBox(p1, p1Hand, ante, p1Ante, pp, p1PP, p1PF, p1Winnings);
+		player1Box.setAlignment(Pos.TOP_CENTER);
+		player1Box.setStyle("-fx-border-color: blue;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+		player1Box.setPadding(new Insets(0, 50, 0, 50));
+		player1Box.setSpacing(10);
+		// Player 1 ends
 		
 		// Middle Buttons
 		Button deal = new Button("Deal");
@@ -184,82 +184,150 @@ public class ThreeCardPokerGame extends Application {
 		midButtons.setSpacing(40);
 		
 		//  Player two's box
-		VBox playerTwoBox;
-		Text pTwo = new Text("Player 2");
-		Text pTwoWinnings = new Text("Total Winnings: " + playerTwo.totalWinnings);
+		VBox player2Box;
+		Text p2 = new Text("Player 2");
+		Text p2Winnings = new Text("Total Winnings: " + playerTwo.totalWinnings);
 		
-		HBox pTwoCards = new HBox(); // player 1 cards
-		
-		Button decAnteTwo = new Button("-");
-		TextField anteAmountTwo = new TextField();
-		anteAmountTwo.setText(Integer.toString(playerTwo.anteBet));
-		decAnteTwo.setOnAction(e -> {
+		Button decAnte2 = new Button("-");
+		TextField anteAmount2 = new TextField();
+		anteAmount2.setText(Integer.toString(playerTwo.anteBet));
+		decAnte2.setOnAction(e -> {
 			playerTwo.anteBet--;
 			if (playerTwo.anteBet < 5) {
 				playerTwo.anteBet = 5;
 			}
-			anteAmountTwo.setText(Integer.toString(playerTwo.anteBet));
+			anteAmount2.setText(Integer.toString(playerTwo.anteBet));
 		});
-		anteAmountTwo.setAlignment(Pos.CENTER);
-		anteAmountTwo.setDisable(true);
-		Button incAnteTwo = new Button("+");
-		incAnteTwo.setOnAction(e -> {
+		anteAmount2.setAlignment(Pos.CENTER);
+		anteAmount2.setDisable(true);
+		Button incAnte2 = new Button("+");
+		incAnte2.setOnAction(e -> {
 			playerTwo.anteBet++;
 			if (playerTwo.anteBet > 25) {
 				playerTwo.anteBet = 25;
 			}
-			anteAmountTwo.setText(Integer.toString(playerTwo.anteBet));
+			anteAmount2.setText(Integer.toString(playerTwo.anteBet));
 		});
-		HBox pTwoAnte = new HBox(decAnteTwo, anteAmountTwo, incAnteTwo);
-		pTwoAnte.setSpacing(5);
+		HBox p2Ante = new HBox(decAnte2, anteAmount2, incAnte2);
+		p2Ante.setAlignment(Pos.CENTER);
+		p2Ante.setSpacing(5);
 
-		TextField ppAmountTwo = new TextField();
-		ppAmountTwo.setText(Integer.toString(playerTwo.pairPlusBet));
-		Button decPPTwo = new Button("-");
-		decPPTwo.setOnAction(e -> {
+		TextField ppAmount2 = new TextField();
+		ppAmount2.setText(Integer.toString(playerTwo.pairPlusBet));
+		Button decPP2 = new Button("-");
+		decPP2.setOnAction(e -> {
 			playerTwo.pairPlusBet--;
 			if (playerTwo.pairPlusBet < 5) {
 				playerTwo.pairPlusBet = 5;
 			}
-			ppAmountTwo.setText(Integer.toString(playerTwo.pairPlusBet));
+			ppAmount2.setText(Integer.toString(playerTwo.pairPlusBet));
 		});
-		ppAmountTwo.setAlignment(Pos.CENTER);
-		ppAmountTwo.setDisable(true);
-		Button incPPTwo = new Button("+");
-		incPPTwo.setOnAction(e -> {
+		ppAmount2.setAlignment(Pos.CENTER);
+		ppAmount2.setDisable(true);
+		Button incPP2 = new Button("+");
+		incPP2.setOnAction(e -> {
 			playerTwo.pairPlusBet++;
 			if (playerTwo.pairPlusBet > 25) {
 				playerTwo.pairPlusBet = 25;
 			}
-			ppAmountTwo.setText(Integer.toString(playerTwo.pairPlusBet));
+			ppAmount2.setText(Integer.toString(playerTwo.pairPlusBet));
 		});
-		HBox pTwoPP = new HBox(decPPTwo, ppAmountTwo, incPPTwo);
+		HBox p2PP = new HBox(decPP2, ppAmount2, incPP2);
+		p2PP.setAlignment(Pos.CENTER);
+		Button p2Play = new Button("PLAY");
+		Button p2Fold = new Button("FOLD");
+		HBox p2PF = new HBox(p2Play, p2Fold);
+		p2PF.setSpacing(30);
+		p2PF.setAlignment(Pos.CENTER);
 
+		// Card Back
+		Image p2CardBack1 = new Image("BackofCard.png", 100, 160, true, true);
+
+		Image p2CardBack2 = new Image("BackofCard.png", 100, 160, true, true);
+
+		Image p2CardBack3 = new Image("BackofCard.png", 100, 160, true, true);
+		ImageView[] p2CardViews = {new ImageView(p2CardBack1), new ImageView(p2CardBack2), new ImageView(p2CardBack3)};
 		// Adding card image
-		Image p2cardBack = new Image("BackofCard.png", 60, 100, true, true);
-		ImageView p2cardBackView = new ImageView(p2cardBack);
+		Image[] p2Cards = {null, null, null};
 
-		Image p2cardBack2 = new Image("BackofCard.png", 60, 100, true, true);
-		ImageView p2cardBackView2 = new ImageView(p2cardBack);
-
-		Image p2cardBack3 = new Image("BackofCard.png", 60, 100, true, true);
-		ImageView p2cardBackView3 = new ImageView(p2cardBack);
-
-		// Player two cards
-//		HBox p2Card1 = new HBox(p2cardBackView);
-//		HBox p2Card2 = new HBox(p2cardBackView2);
-//		HBox p2Card3 = new HBox(p2cardBackView3);
-
-		HBox p2Hand = new HBox(p2cardBackView, p2cardBackView2, p2cardBackView3);
+		HBox p2Hand = new HBox(p2CardViews[0], p2CardViews[1], p2CardViews[2]);
+		p2Hand.setSpacing(5);
+		p2PP.setSpacing(5);
 		
-		pTwoPP.setSpacing(5);
-		playerTwoBox = new VBox(pTwo, p2Hand, anteTwo, pTwoAnte, ppTwo, pTwoPP, pTwoWinnings);
-		playerTwoBox.setAlignment(Pos.TOP_CENTER);
-		playerTwoBox.setStyle("-fx-border-color: blue;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
-		playerTwoBox.setPadding(new Insets(0, 50, 0, 50));
-		playerTwoBox.setSpacing(10);
+		player2Box = new VBox(p2, p2Hand, ante2, p2Ante, pp2, p2PP, p2PF, p2Winnings);
+		player2Box.setAlignment(Pos.TOP_CENTER);
+		player2Box.setStyle("-fx-border-color: blue;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+		player2Box.setPadding(new Insets(0, 50, 0, 50));
+		player2Box.setSpacing(10);
+		// Player 2 ends
 		
-		centerBox = new HBox(playerOneBox, midButtons, playerTwoBox);
+		deal.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				p1Play.setDisable(false);
+				p2Play.setDisable(false);
+				p1Fold.setDisable(false);
+				p2Fold.setDisable(false);
+				deal.setDisable(true);
+				decAnte1.setDisable(true);
+				incAnte1.setDisable(true);
+				decPP1.setDisable(true);
+				incPP1.setDisable(true);
+				decAnte2.setDisable(true);
+				incAnte2.setDisable(true);
+				decPP2.setDisable(true);
+				incPP2.setDisable(true);
+				playerOne.hand = theDealer.dealHand();
+				for (int i = 0; i < 3; i++) {
+					Card curr = playerOne.hand.get(i);
+					String s = String.format("%d_of_%c.png", curr.value, curr.suit);
+					p1Cards[i] = new Image(s, 100, 160, true, true);
+					p1CardViews[i].setImage(p1Cards[i]);
+				}
+				playerTwo.hand = theDealer.dealHand();
+				for (int i = 0; i < 3; i++) {
+					Card curr = playerTwo.hand.get(i);
+					String s = String.format("%d_of_%c.png", curr.value, curr.suit);
+					p2Cards[i] = new Image(s, 100, 160, true, true);
+					p2CardViews[i].setImage(p2Cards[i]);
+				}
+				theDealer.dealersHand = theDealer.dealHand();
+//				for (int i = 0; i < 3; i++) {
+//					Card curr = theDealer.dealersHand.get(i);
+//					String s = String.format("%d_of_%c.png", curr.value, curr.suit);
+//					dealerCards[i] = new Image(s, 60, 100, true, true);
+//					dealerCardViews[i].setImage(dealerCards[i]);
+//				}
+			}
+		});
+		
+		p1Play.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				playerOne.playBet = playerOne.anteBet;
+				
+			}
+		});
+		
+		p2Play.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				playerTwo.playBet = playerTwo.anteBet;
+			}
+		});
+		
+		p1Fold.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				playerOne.totalWinnings -= playerOne.anteBet + playerOne.pairPlusBet;
+			}
+		});
+		
+		p2Fold.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				playerTwo.totalWinnings -= playerTwo.anteBet + playerTwo.pairPlusBet;
+			}
+		});
+		
+		
+		centerBox = new HBox(player1Box, midButtons, player2Box);
+		// Center ends
 		
 //		printListBtn.setOnAction(e-> {displayQueueItems.getItems().removeAll(storeQueueItemsInListView);
 //		storeQueueItemsInListView.clear();
