@@ -25,23 +25,28 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 public class ThreeCardPokerGame extends Application {
 
     Player playerOne;
     Player playerTwo;
     Dealer theDealer;
-    
+
     public static void main(String[] args) {
     	launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+		playerOne = new Player();
+		playerTwo = new Player();
+		theDealer = new Dealer();
     	primaryStage.setTitle("Three Card Poker");
     	
-    	int pOneWonAmt = 0;
-    	int pTwoWonAmt = 0;
+    	playerOne.totalWinnings = 0;
+    	playerTwo.totalWinnings = 0;
     	
     	//  Top part of UI
     	HBox topHorizontal;
@@ -97,27 +102,53 @@ public class ThreeCardPokerGame extends Application {
 		// Player one's box
 		VBox playerOneBox;
 		Text pOne = new Text("Player 1");
-		Text pOneWinnings = new Text("Total Winnings: " + pOneWonAmt);
+		Text pOneWinnings = new Text("Total Winnings: " + playerOne.totalWinnings);
 		
 		HBox pOneCards = new HBox(); // player 1 cards
 		
 		Button decAnteOne = new Button("-");
-		int pOneAnteBet = 5;
 		TextField anteAmountOne = new TextField();
-		anteAmountOne.setText(Integer.toString(pOneAnteBet));
+		anteAmountOne.setText(Integer.toString(playerOne.anteBet));
+		decAnteOne.setOnAction(e -> {
+			playerOne.anteBet--;
+			if (playerOne.anteBet < 5) {
+				playerOne.anteBet = 5;
+			}
+			anteAmountOne.setText(Integer.toString(playerOne.anteBet));
+		});
 		anteAmountOne.setAlignment(Pos.CENTER);
 		anteAmountOne.setDisable(true);
 		Button incAnteOne = new Button("+");
+		incAnteOne.setOnAction(e -> {
+			playerOne.anteBet++;
+			if (playerOne.anteBet > 25) {
+				playerOne.anteBet = 25;
+			}
+			anteAmountOne.setText(Integer.toString(playerOne.anteBet));
+		});
 		HBox pOneAnte = new HBox(decAnteOne, anteAmountOne, incAnteOne);
 		pOneAnte.setSpacing(5);
-		
-		Button decPPOne = new Button("-");
-		int pOnePPBet = 5;
+
 		TextField ppAmountOne = new TextField();
-		ppAmountOne.setText(Integer.toString(pOnePPBet));
+		ppAmountOne.setText(Integer.toString(playerOne.pairPlusBet));
+		Button decPPOne = new Button("-");
+		decPPOne.setOnAction(e -> {
+			playerOne.pairPlusBet--;
+			if (playerOne.pairPlusBet < 5) {
+				playerOne.pairPlusBet = 5;
+			}
+			ppAmountOne.setText(Integer.toString(playerOne.pairPlusBet));
+		});
 		ppAmountOne.setAlignment(Pos.CENTER);
 		ppAmountOne.setDisable(true);
 		Button incPPOne = new Button("+");
+		incPPOne.setOnAction(e -> {
+			playerOne.pairPlusBet++;
+			if (playerOne.pairPlusBet > 25) {
+				playerOne.pairPlusBet = 25;
+			}
+			ppAmountOne.setText(Integer.toString(playerOne.pairPlusBet));
+		});
 		HBox pOnePP = new HBox(decPPOne, ppAmountOne, incPPOne);
 		pOnePP.setSpacing(5);
 
@@ -155,27 +186,53 @@ public class ThreeCardPokerGame extends Application {
 		//  Player two's box
 		VBox playerTwoBox;
 		Text pTwo = new Text("Player 2");
-		Text pTwoWinnings = new Text("Total Winnings: " + pTwoWonAmt);
+		Text pTwoWinnings = new Text("Total Winnings: " + playerTwo.totalWinnings);
 		
 		HBox pTwoCards = new HBox(); // player 1 cards
 		
 		Button decAnteTwo = new Button("-");
-		int pTwoAnteBet = 5;
 		TextField anteAmountTwo = new TextField();
-		anteAmountTwo.setText(Integer.toString(pTwoAnteBet));
+		anteAmountTwo.setText(Integer.toString(playerTwo.anteBet));
+		decAnteTwo.setOnAction(e -> {
+			playerTwo.anteBet--;
+			if (playerTwo.anteBet < 5) {
+				playerTwo.anteBet = 5;
+			}
+			anteAmountTwo.setText(Integer.toString(playerTwo.anteBet));
+		});
 		anteAmountTwo.setAlignment(Pos.CENTER);
 		anteAmountTwo.setDisable(true);
 		Button incAnteTwo = new Button("+");
+		incAnteTwo.setOnAction(e -> {
+			playerTwo.anteBet++;
+			if (playerTwo.anteBet > 25) {
+				playerTwo.anteBet = 25;
+			}
+			anteAmountTwo.setText(Integer.toString(playerTwo.anteBet));
+		});
 		HBox pTwoAnte = new HBox(decAnteTwo, anteAmountTwo, incAnteTwo);
 		pTwoAnte.setSpacing(5);
-		
-		Button decPPTwo = new Button("-");
-		int pTwoPPBet = 5;
+
 		TextField ppAmountTwo = new TextField();
-		ppAmountTwo.setText(Integer.toString(pTwoPPBet));
+		ppAmountTwo.setText(Integer.toString(playerTwo.pairPlusBet));
+		Button decPPTwo = new Button("-");
+		decPPTwo.setOnAction(e -> {
+			playerTwo.pairPlusBet--;
+			if (playerTwo.pairPlusBet < 5) {
+				playerTwo.pairPlusBet = 5;
+			}
+			ppAmountTwo.setText(Integer.toString(playerTwo.pairPlusBet));
+		});
 		ppAmountTwo.setAlignment(Pos.CENTER);
 		ppAmountTwo.setDisable(true);
 		Button incPPTwo = new Button("+");
+		incPPTwo.setOnAction(e -> {
+			playerTwo.pairPlusBet++;
+			if (playerTwo.pairPlusBet > 25) {
+				playerTwo.pairPlusBet = 25;
+			}
+			ppAmountTwo.setText(Integer.toString(playerTwo.pairPlusBet));
+		});
 		HBox pTwoPP = new HBox(decPPTwo, ppAmountTwo, incPPTwo);
 
 		// Adding card image

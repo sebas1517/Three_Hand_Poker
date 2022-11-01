@@ -9,9 +9,9 @@ public class Player {
 
     Player() {
         this.hand = new ArrayList<Card>();
-        this.anteBet = 0;
+        this.anteBet = 5;
         this.playBet = 0;
-        this.pairPlusBet = 0;
+        this.pairPlusBet = 5;
         this.totalWinnings = 0;
     }
 }
