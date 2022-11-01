@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.ArrayList;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
@@ -65,12 +66,13 @@ public class ThreeCardPokerGame extends Application {
 		MenuBar menuBar = new MenuBar(menu);
 
         // Adding card image
-		Image dealerCardBack1 = new Image("BackofCard.png", 100, 160, true, true);
-		Image dealerCardBack2 = new Image("BackofCard.png", 100, 160, true, true);
-		Image dealerCardBack3 = new Image("BackofCard.png", 100, 160, true, true);
+		Image[] dealerCardBacks = {null, null, null};
+		for (int i = 0; i < 3; i++) {
+			dealerCardBacks[i] = new Image("BackofCard.png", 100, 160, true, true);
+		}
 		
-		ImageView[] dealerCardViews = {new ImageView(dealerCardBack1),
-				new ImageView(dealerCardBack2), new ImageView(dealerCardBack3)};
+		ImageView[] dealerCardViews = {new ImageView(dealerCardBacks[0]),
+				new ImageView(dealerCardBacks[1]), new ImageView(dealerCardBacks[2])};
 		Image[] dealerCards = {null, null, null};
 
 		// dealer cards
@@ -158,11 +160,12 @@ public class ThreeCardPokerGame extends Application {
 		p1PF.setSpacing(30);
 		
 		// Card Back
-		Image p1CardBack1 = new Image("BackofCard.png", 100, 160, true, true);
-		Image p1CardBack2 = new Image("BackofCard.png", 100, 160, true, true);
-		Image p1CardBack3 = new Image("BackofCard.png", 100, 160, true, true);
+		Image[] p1CardBacks = {null, null, null};
+		for (int i = 0; i < 3; i++) {
+			p1CardBacks[i] = new Image("BackofCard.png", 100, 160, true, true);
+		}
 		
-		ImageView[] p1CardViews = {new ImageView(p1CardBack1), new ImageView(p1CardBack2), new ImageView(p1CardBack3)};
+		ImageView[] p1CardViews = {new ImageView(p1CardBacks[0]), new ImageView(p1CardBacks[1]), new ImageView(p1CardBacks[2])};
 		Image[] p1Cards = {null, null, null};
 
 
@@ -178,6 +181,7 @@ public class ThreeCardPokerGame extends Application {
 		// Middle Buttons
 		Button deal = new Button("Deal");
 		Button rebet = new Button("Rebet");
+		rebet.setDisable(true);
 		VBox midButtons = new VBox(deal, rebet);
 		midButtons.setAlignment(Pos.CENTER);
 		midButtons.setPadding(new Insets(0, 20, 0, 20));
@@ -241,12 +245,11 @@ public class ThreeCardPokerGame extends Application {
 		p2PF.setAlignment(Pos.CENTER);
 
 		// Card Back
-		Image p2CardBack1 = new Image("BackofCard.png", 100, 160, true, true);
-
-		Image p2CardBack2 = new Image("BackofCard.png", 100, 160, true, true);
-
-		Image p2CardBack3 = new Image("BackofCard.png", 100, 160, true, true);
-		ImageView[] p2CardViews = {new ImageView(p2CardBack1), new ImageView(p2CardBack2), new ImageView(p2CardBack3)};
+		Image[] p2CardBacks = {null, null, null};
+		for (int i = 0; i < 3; i++) {
+			p2CardBacks[i] = new Image("BackofCard.png", 100, 160, true, true);
+		}
+		ImageView[] p2CardViews = {new ImageView(p2CardBacks[0]), new ImageView(p2CardBacks[1]), new ImageView(p2CardBacks[2])};
 		// Adding card image
 		Image[] p2Cards = {null, null, null};
 
@@ -267,6 +270,7 @@ public class ThreeCardPokerGame extends Application {
 				p2Play.setDisable(false);
 				p1Fold.setDisable(false);
 				p2Fold.setDisable(false);
+				rebet.setDisable(false);
 				deal.setDisable(true);
 				decAnte1.setDisable(true);
 				incAnte1.setDisable(true);
@@ -300,12 +304,74 @@ public class ThreeCardPokerGame extends Application {
 			}
 		});
 		
+		rebet.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				rebet.setDisable(true);
+				deal.setDisable(false);
+				incAnte1.setDisable(false);
+				incPP1.setDisable(false);
+				decAnte1.setDisable(false);
+				decPP1.setDisable(false);
+				incAnte2.setDisable(false);
+				incPP2.setDisable(false);
+				decAnte2.setDisable(false);
+				decPP2.setDisable(false);	
+				playerOne.playBet = 0;
+				playerTwo.playBet = 0;
+				for(int i = 0; i < 3; i++) {
+					p1CardViews[i].setImage(p1CardBacks[i]);
+					p2CardViews[i].setImage(p2CardBacks[i]);
+					dealerCardViews[i].setImage(dealerCardBacks[i]);
+				}
+			}
+		});
+				
 		p1Play.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				playerOne.playBet = playerOne.anteBet;
 				p1Play.setDisable(true);
 				p1Fold.setDisable(true);
-				checkDisabled(p1Play.isDisabled(), p2Play.isDisabled());
+				if (p1Play.isDisabled() && p2Play.isDisabled()) {
+					theDealer.dealersHand = theDealer.dealHand();
+					for (int i = 0; i < 3; i++) {
+						Card curr = theDealer.dealersHand.get(i);
+						String s = String.format("%d_of_%c.png", curr.value, curr.suit);
+						dealerCards[i] = new Image(s, 100, 160, true, true);
+						dealerCardViews[i].setImage(dealerCards[i]);
+					}
+					ArrayList<Card> p1H, p2H, dH;
+					p1H = playerOne.hand;
+					p2H = playerTwo.hand;
+					dH = theDealer.dealersHand;
+					int compVal = ThreeCardLogic.compareHands(dH, p1H);
+					if (2 == compVal) {
+						player1Box.setStyle("-fx-border-color: green;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+						playerOne.totalWinnings += playerOne.playBet + playerOne.anteBet + ThreeCardLogic.evalPPWinnings(p1H, playerOne.pairPlusBet);
+					} else if (1 == compVal) {
+						player1Box.setStyle("-fx-border-color: red;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+						playerOne.totalWinnings -= playerOne.playBet + playerOne.anteBet;
+						if (0 == ThreeCardLogic.evalPPWinnings(p1H, playerOne.pairPlusBet)) {
+							playerOne.totalWinnings -= playerOne.pairPlusBet;
+						} else {
+							playerOne.totalWinnings += ThreeCardLogic.evalPPWinnings(p1H, playerOne.pairPlusBet);
+						}
+					}
+					compVal = ThreeCardLogic.compareHands(dH, p2H);
+					if (2 == compVal) {
+						player2Box.setStyle("-fx-border-color: green;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+						playerTwo.totalWinnings += playerTwo.playBet + playerTwo.anteBet + ThreeCardLogic.evalPPWinnings(p2H, playerTwo.pairPlusBet);
+					} else if (1 == compVal) {
+						player2Box.setStyle("-fx-border-color: red;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+						playerTwo.totalWinnings -= playerTwo.playBet + playerTwo.anteBet;
+						if (0 == ThreeCardLogic.evalPPWinnings(p2H, playerTwo.pairPlusBet)) {
+							playerTwo.totalWinnings -= playerTwo.pairPlusBet;
+						} else {
+							playerTwo.totalWinnings += ThreeCardLogic.evalPPWinnings(p2H, playerTwo.pairPlusBet);
+						}
+					}
+					p1Winnings.setText("Total Winnings: " + playerOne.totalWinnings);
+					p2Winnings.setText("Total Winnings: " + playerTwo.totalWinnings);
+				}
 			}
 		});
 		
@@ -314,27 +380,86 @@ public class ThreeCardPokerGame extends Application {
 				playerTwo.playBet = playerTwo.anteBet;
 				p2Play.setDisable(true);
 				p2Fold.setDisable(true);
-				checkDisabled(p1Play.isDisabled(), p2Play.isDisabled());
+				if (p1Play.isDisabled() && p2Play.isDisabled()) {
+					theDealer.dealersHand = theDealer.dealHand();
+					for (int i = 0; i < 3; i++) {
+						Card curr = theDealer.dealersHand.get(i);
+						String s = String.format("%d_of_%c.png", curr.value, curr.suit);
+						dealerCards[i] = new Image(s, 100, 160, true, true);
+						dealerCardViews[i].setImage(dealerCards[i]);
+					}
+					ArrayList<Card> p1H, p2H, dH;
+					p1H = playerOne.hand;
+					p2H = playerTwo.hand;
+					dH = theDealer.dealersHand;
+					int compVal = ThreeCardLogic.compareHands(dH, p1H);
+					if (2 == compVal) {
+						player1Box.setStyle("-fx-border-color: green;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+						playerOne.totalWinnings += playerOne.playBet + playerOne.anteBet + ThreeCardLogic.evalPPWinnings(p1H, playerOne.pairPlusBet);
+					} else if (1 == compVal) {
+						player1Box.setStyle("-fx-border-color: red;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+						playerOne.totalWinnings -= playerOne.playBet + playerOne.anteBet;
+						if (0 == ThreeCardLogic.evalPPWinnings(p1H, playerOne.pairPlusBet)) {
+							playerOne.totalWinnings -= playerOne.pairPlusBet;
+						} else {
+							playerOne.totalWinnings += ThreeCardLogic.evalPPWinnings(p1H, playerOne.pairPlusBet);
+						}
+					}
+					compVal = ThreeCardLogic.compareHands(dH, p2H);
+					if (2 == compVal) {
+						player2Box.setStyle("-fx-border-color: green;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+						playerTwo.totalWinnings += playerTwo.playBet + playerTwo.anteBet + ThreeCardLogic.evalPPWinnings(p2H, playerTwo.pairPlusBet);
+					} else if (1 == compVal) {
+						player2Box.setStyle("-fx-border-color: red;"+"-fx-border-width: 3;"+"-fx-border-insets: 5");
+						playerTwo.totalWinnings -= playerTwo.playBet + playerTwo.anteBet;
+						if (0 == ThreeCardLogic.evalPPWinnings(p2H, playerTwo.pairPlusBet)) {
+							playerTwo.totalWinnings -= playerTwo.pairPlusBet;
+						} else {
+							playerTwo.totalWinnings += ThreeCardLogic.evalPPWinnings(p2H, playerTwo.pairPlusBet);
+						}
+					}
+					p1Winnings.setText("Total Winnings: " + playerOne.totalWinnings);
+					p2Winnings.setText("Total Winnings: " + playerTwo.totalWinnings);
+				}
 			}
 		});
 		
 		p1Fold.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				playerOne.totalWinnings -= playerOne.anteBet + playerOne.pairPlusBet;
+				p1Winnings.setText("Total Winnings: " + playerOne.totalWinnings);
 				p1Play.setDisable(true);
 				p1Fold.setDisable(true);
-				checkDisabled(p1Play.isDisabled(), p2Play.isDisabled());
+				if (p1Play.isDisabled() && p2Play.isDisabled()) {
+					theDealer.dealersHand = theDealer.dealHand();
+					for (int i = 0; i < 3; i++) {
+						Card curr = theDealer.dealersHand.get(i);
+						String s = String.format("%d_of_%c.png", curr.value, curr.suit);
+						dealerCards[i] = new Image(s, 100, 160, true, true);
+						dealerCardViews[i].setImage(dealerCards[i]);
+					}
+				}
 			}
 		});
 		
 		p2Fold.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				playerTwo.totalWinnings -= playerTwo.anteBet + playerTwo.pairPlusBet;
+				p2Winnings.setText("Total Winnings: " + playerTwo.totalWinnings);
 				p2Play.setDisable(true);
 				p2Fold.setDisable(true);
-				checkDisabled(p1Play.isDisabled(), p2Play.isDisabled());
+				if (p1Play.isDisabled() && p2Play.isDisabled()) {
+					theDealer.dealersHand = theDealer.dealHand();
+					for (int i = 0; i < 3; i++) {
+						Card curr = theDealer.dealersHand.get(i);
+						String s = String.format("%d_of_%c.png", curr.value, curr.suit);
+						dealerCards[i] = new Image(s, 100, 160, true, true);
+						dealerCardViews[i].setImage(dealerCards[i]);
+					}
+				}
 			}
 		});
+		
 		
 		
 		centerBox = new HBox(player1Box, midButtons, player2Box);
@@ -353,15 +478,6 @@ public class ThreeCardPokerGame extends Application {
     	primaryStage.setScene(scene);
     	primaryStage.show();
     }
-	public void checkDisabled(bool p1Selection, bool p2Selection) {
-		if (p1Selection && p2Selection) {
-			theDealer.dealersHand = theDealer.dealHand();
-			for (int i = 0; i < 3; i++) {
-				Card curr = theDealer.dealersHand.get(i);
-				String s = String.format("%d_of_%c.png", curr.value, curr.suit);
-				dealerCards[i] = new Image(s, 60, 100, true, true);
-				dealerCardViews[i].setImage(dealerCards[i]);
-			}
-		}
-	}
+    
+	
 }

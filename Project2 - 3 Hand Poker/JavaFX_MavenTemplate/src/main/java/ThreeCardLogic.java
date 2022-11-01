@@ -64,6 +64,7 @@ public class ThreeCardLogic {
     	} else return 0;
     }
     
+    // Returns a 2 if Player wins, 1 if Dealer wins, 0 if neither win.
     public static int compareHands(ArrayList<Card> dealer, ArrayList<Card> player){
         int dealerEval = evalHand(dealer);
         int playerEval = evalHand(player);
